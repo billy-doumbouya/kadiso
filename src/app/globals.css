@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand palette — from the PRD charte graphique */
+  --color-terre: #2e7d32;
+  --color-terre-dark: #1f5b25;
+  --color-terre-light: #e7f0e3;
+  --color-mur: #f57c00;
+  --color-mur-dark: #c45f00;
+  --color-mur-light: #fdebd6;
+  --color-source: #0288d1;
+  --color-source-dark: #01659e;
+  --color-source-light: #dff0fa;
+
+  /* Neutrals — a sage-tinted paper, not the generic AI cream */
+  --color-paper: #f6f7f1;
+  --color-paper-deep: #ebede2;
+  --color-ink: #20241f;
+  --color-ink-soft: #565c50;
+  --color-night: #15201a;
+  --color-night-soft: #28352b;
+
+  --font-display: var(--font-montserrat), "Montserrat", sans-serif;
+  --font-body: var(--font-open-sans), "Open Sans", sans-serif;
+
+  --radius-card: 0.9rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+  }
+  ::selection {
+    background-color: var(--color-mur-light);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-mur);
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  /* The "motif terroir" — a subtle field of waves and dots called for in §5 of the PRD */
+  .texture-terroir {
+    background-image:
+      radial-gradient(circle at 2px 2px, rgba(32, 36, 31, 0.18) 1px, transparent 0),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='40' viewBox='0 0 180 40'%3E%3Cpath d='M0 20 Q 22.5 0 45 20 T 90 20 T 135 20 T 180 20' fill='none' stroke='rgba(32,36,31,0.12)' stroke-width='1.4'/%3E%3C/svg%3E");
+    background-size: 18px 18px, 180px 40px;
+  }
+
+  .texture-terroir-light {
+    background-image:
+      radial-gradient(circle at 2px 2px, rgba(246, 247, 241, 0.35) 1px, transparent 0),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='40' viewBox='0 0 180 40'%3E%3Cpath d='M0 20 Q 22.5 0 45 20 T 90 20 T 135 20 T 180 20' fill='none' stroke='rgba(246,247,241,0.22)' stroke-width='1.4'/%3E%3C/svg%3E");
+    background-size: 18px 18px, 180px 40px;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
