@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm ,  type Resolver} from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import { Send } from "lucide-react";
@@ -14,7 +14,7 @@ export function ResellerForm() {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<ResellerFormValues>({ resolver: yupResolver(resellerSchema) });
+  } = useForm<ResellerFormValues>({ resolver: yupResolver(resellerSchema) as Resolver<ResellerFormValues>, });
 
   const onSubmit = async (values: ResellerFormValues) => {
     try {

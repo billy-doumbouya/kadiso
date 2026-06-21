@@ -12,10 +12,20 @@ import { categories } from "@/lib/data/categories";
 import { testimonials } from "@/lib/data/faq";
 import { Products, BlogPosts, Impact, DeliveryZones } from "@/lib/db";
 
-export default function HomePage() {
-  const featured = Products.all().slice(0, 4);
-  const latestPosts = BlogPosts.all().slice(0, 3);
-  const impact = Impact.current();
+// CHANGEMENT ICI : Le composant devient async 👇
+export default async function HomePage() {
+  // AJOUT DES AWAIT AVANT TOUTES LES REQUÊTES TURSO
+  const allProducts = (await Products.all()).filter((product): product is NonNullable<typeof product> => product !== null);
+  const featured = allProducts.slice(0, 4);
+
+const allPosts = (await BlogPosts.all()).filter(
+  (post): post is NonNullable<typeof post> => post !== null
+);
+const latestPosts = allPosts.slice(0, 3);
+
+  const impact = await Impact.current();
+  
+  const allZones = await DeliveryZones.all();
 
   return (
     <>
@@ -71,7 +81,8 @@ export default function HomePage() {
             <div className="grid gap-px overflow-hidden rounded-2xl border border-paper/15 bg-paper/10 backdrop-blur sm:grid-cols-3">
               <Stat value={20} suffix="%" label="des bénéfices reversés à la Fondation" />
               <Stat value={categories.length} label="catégories de produits transformés en Guinée" />
-              <Stat value={DeliveryZones.all().length} label="zones de livraison à Conakry et en région" />
+              {/* UTILISATION DE LA VARIABLE UTILISÉE AVEC AWAIT PLUS HAUT 👇 */}
+              <Stat value={allZones.length} label="zones de livraison à Conakry et en région" />
             </div>
           </Reveal>
         </Container>
@@ -163,7 +174,7 @@ export default function HomePage() {
               <SourceThread height={90} stroke="#f57c00" className="-ml-1" />
               <div>
                 <p className="font-display text-4xl font-extrabold text-mur">
-                    <AnimatedCounter value={impact?.total_amount ?? 0} /> GNF
+                    <AnimatedCounter value={Number(impact?.total_amount ?? 0)} /> GNF
                 </p>
                 <p className="mt-1 text-sm text-paper/60">reversés à la Fondation depuis 2023</p>
               </div>

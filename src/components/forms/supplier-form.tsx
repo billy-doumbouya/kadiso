@@ -7,6 +7,7 @@ import { Send } from "lucide-react";
 import { supplierSchema, type SupplierFormValues } from "@/lib/validation/schemas";
 import { sendEmail } from "@/lib/email";
 import { Field, inputClasses } from "@/components/forms/field";
+import { typedResolver } from "@/lib/validation/Resolvers";
 
 export function SupplierForm() {
   const {
@@ -14,7 +15,7 @@ export function SupplierForm() {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<SupplierFormValues>({ resolver: yupResolver(supplierSchema) });
+  } = useForm<SupplierFormValues>({ resolver: typedResolver(supplierSchema) });
 
   const onSubmit = async (values: SupplierFormValues) => {
     try {

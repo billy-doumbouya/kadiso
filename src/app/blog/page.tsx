@@ -28,7 +28,7 @@ export default async function BlogPage({
 }) {
   const { categorie } = await searchParams;
   const active = categorie ?? "tous";
-  const allPosts = BlogPosts.all();
+  const allPosts = (await BlogPosts.all()).filter((post): post is NonNullable<typeof post> => post !== null);
   const posts = active === "tous" ? allPosts : allPosts.filter((p) => p.category === active);
 
   return (

@@ -16,18 +16,25 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const product = Products.bySlug(slug);
+
+  const product = await Products.bySlug(slug);
   if (!product) return {};
   return { title: product.name, description: product.tagline };
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = Products.bySlug(slug);
+  // AJOUT DE AWAIT ICI 👇
+  const product = await Products.bySlug(slug);
   if (!product) notFound();
 
   const category = getCategory(product.category);
-  const related = Products.byCategory(product.category).filter((p) => p.id !== product.id).slice(0, 3);
+  
+  // AJOUT DE AWAIT ICI 👇 + GESTION DES LIENS LIÉS
+const allRelated = (await Products.byCategory(product.category)).filter(
+  (p): p is NonNullable<typeof p> => p !== null
+);
+const related = allRelated.filter((p) => p.id !== product.id).slice(0, 3);
 
   return (
     <Container className="py-12 sm:py-16">
@@ -78,7 +85,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <p className="mt-8 text-ink-soft">{product.description}</p>
 
           <dl className="mt-6 divide-y divide-ink/10 border-y border-ink/10">
-            {product.details.map((d) => (
+            {(product.details || []).map((d: any) => (
               <div key={d.label} className="flex justify-between py-3 text-sm">
                 <dt className="text-ink-soft">{d.label}</dt>
                 <dd className="font-medium text-ink">{d.value}</dd>

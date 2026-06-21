@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { type Resolver, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import { Send } from "lucide-react";
@@ -23,7 +23,7 @@ export function ContactForm() {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<ContactFormValues>({ resolver: yupResolver(contactSchema) });
+  } = useForm<ContactFormValues>({  resolver: yupResolver(contactSchema) as Resolver<ContactFormValues>, });
 
   const onSubmit = async (values: ContactFormValues) => {
     try {

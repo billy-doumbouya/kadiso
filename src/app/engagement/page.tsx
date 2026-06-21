@@ -28,8 +28,8 @@ const reports = [
   { year: "2023", label: "Rapport d'impact 2023" },
 ];
 
-export default function EngagementPage() {
-  const impact = Impact.current();
+export default async function EngagementPage() {
+  const impact = await Impact.current();
   return (
     <>
       <section className="relative overflow-hidden bg-night py-20 text-paper sm:py-28">
@@ -64,7 +64,7 @@ export default function EngagementPage() {
           <SourceThread height={100} />
           <SectionTag tone="mur">Compteur solidaire</SectionTag>
           <p className="font-display text-5xl font-extrabold text-terre sm:text-6xl">
-            <AnimatedCounter value={impact?.total_amount ?? 0} /> GNF
+            <AnimatedCounter value={Number(impact?.total_amount ?? 0)} /> GNF
           </p>
           <p className="max-w-md text-ink-soft">
             reversés à la Fondation Kadi&rsquo;s Humanitaire depuis 2023. Ce montant est mis à jour
