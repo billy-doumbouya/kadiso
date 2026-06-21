@@ -10,6 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "db:init": "tsx scripts/init-db.ts",
     "db:reset": "rm -f data/kadiso.db data/kadiso.db-shm data/kadiso.db-wal"
   },
   "dependencies": {
@@ -38,6 +39,7 @@
     "eslint": "^9",
     "eslint-config-next": "^16.1.1",
     "tailwindcss": "^4",
+    "tsx": "^4.22.4",
     "typescript": "^5"
   }
 }
