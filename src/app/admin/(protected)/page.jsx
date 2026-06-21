@@ -3,9 +3,8 @@ import { PageHeader } from "@/components/admin/page-header";
 import { Stats } from "@/lib/db";
 import { formatGNF } from "@/lib/utils";
 
-export default function AdminDashboardPage() {
-  const stats = Stats.summary();
-
+export default async function AdminDashboardPage() {
+  const stats = await Stats.summary();
   const cards = [
     { icon: Wallet, label: "Chiffre d'affaires", value: formatGNF(stats.revenue) },
     { icon: ShoppingCart, label: "Commandes", value: stats.ordersCount, hint: `${stats.pendingOrders} en attente` },
@@ -14,14 +13,12 @@ export default function AdminDashboardPage() {
     { icon: Mail, label: "Nouveaux messages", value: stats.newMessages },
     { icon: Users, label: "Visiteurs (cumulés)", value: stats.pageViews },
   ];
-
   return (
     <div>
       <PageHeader
         title="Tableau de bord"
         description="Vue d'ensemble de l'activité Kadi'so."
       />
-
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {cards.map((c) => (
           <div key={c.label} className="rounded-card border border-ink/10 bg-white p-5">
@@ -36,7 +33,6 @@ export default function AdminDashboardPage() {
           </div>
         ))}
       </div>
-
       <div className="mt-8 rounded-card border border-ink/10 bg-white p-6">
         <h2 className="font-display font-semibold">Produits les plus vendus</h2>
         {stats.topProducts.length === 0 ? (

@@ -5,7 +5,7 @@ import { requireAdmin } from "@/lib/auth";
 export async function GET() {
   const denied = await requireAdmin();
   if (denied) return denied;
-  return NextResponse.json(Resellers.all());
+  return NextResponse.json(await Resellers.all());
 }
 
 export async function POST(request) {
@@ -13,6 +13,6 @@ export async function POST(request) {
   if (!body?.companyName || !body?.contactName || !body?.email || !body?.phone || !body?.rccm || !body?.ifu) {
     return NextResponse.json({ error: "Champs requis manquants" }, { status: 400 });
   }
-  const reseller = Resellers.create(body);
+  const reseller = await Resellers.create(body);
   return NextResponse.json(reseller, { status: 201 });
 }

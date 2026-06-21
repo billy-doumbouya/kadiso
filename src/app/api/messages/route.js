@@ -5,7 +5,7 @@ import { requireAdmin } from "@/lib/auth";
 export async function GET() {
   const denied = await requireAdmin();
   if (denied) return denied;
-  return NextResponse.json(Messages.all());
+  return NextResponse.json(await Messages.all());
 }
 
 export async function POST(request) {
@@ -13,6 +13,6 @@ export async function POST(request) {
   if (!body?.name || !body?.email || !body?.subject || !body?.message) {
     return NextResponse.json({ error: "Champs requis manquants" }, { status: 400 });
   }
-  const message = Messages.create(body);
+  const message = await Messages.create(body);
   return NextResponse.json(message, { status: 201 });
 }

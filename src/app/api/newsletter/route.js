@@ -6,6 +6,6 @@ export async function POST(request) {
   if (!body?.email) {
     return NextResponse.json({ error: "Email requis" }, { status: 400 });
   }
-  Newsletter.create(body.email.trim().toLowerCase());
+  await Newsletter.create(body.email.trim().toLowerCase());
   return NextResponse.json({ ok: true }, { status: 201 });
 }

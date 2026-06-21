@@ -5,13 +5,11 @@ import { requireAdmin } from "@/lib/auth";
 export async function PATCH(request, { params }) {
   const denied = await requireAdmin();
   if (denied) return denied;
-
   const { id } = await params;
   const body = await request.json().catch(() => null);
   if (!body) return NextResponse.json({ error: "Corps invalide" }, { status: 400 });
-
   try {
-    const product = Products.update(Number(id), body);
+    const product = await Products.update(Number(id), body);
     return NextResponse.json(product);
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 400 });
@@ -21,8 +19,7 @@ export async function PATCH(request, { params }) {
 export async function DELETE(request, { params }) {
   const denied = await requireAdmin();
   if (denied) return denied;
-
   const { id } = await params;
-  Products.remove(Number(id));
+  await Products.remove(Number(id));
   return NextResponse.json({ ok: true });
 }

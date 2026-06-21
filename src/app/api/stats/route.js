@@ -5,5 +5,5 @@ import { requireAdmin } from "@/lib/auth";
 export async function GET() {
   const denied = await requireAdmin();
   if (denied) return denied;
-  return NextResponse.json(Stats.summary());
+  return NextResponse.json(await Stats.summary());
 }
